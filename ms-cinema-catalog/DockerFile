@@ -1,5 +1,6 @@
 # Paso 1: Compilación
-FROM maven:3.8.8-eclipse-temurin-17 AS build
+#maven para compilar y empaquetar la aplicación imagen de eclipse-temurin-17 para ejecutar la aplicación
+FROM maven:3.8.8-eclipse-temurin-17 AS build 
 WORKDIR /app
 
 COPY pom.xml .
