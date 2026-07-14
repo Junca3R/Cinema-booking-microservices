@@ -28,4 +28,5 @@ public class Booking {
     private Double totalPrice;    // Calculado automáticamente: seatCount * ticketPrice
     private String status;        // CONFIRMADA, CANCELADA
     private LocalDateTime bookingDate;
+    
 }

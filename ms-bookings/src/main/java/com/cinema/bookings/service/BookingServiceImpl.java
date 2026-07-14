@@ -49,10 +49,10 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepository.findAll();
     }
 
-    @Override
+   @Override
     public Booking getBookingById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBookingById'");
+        return bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reserva no encontrada con ID: " + id));
     }
 
     

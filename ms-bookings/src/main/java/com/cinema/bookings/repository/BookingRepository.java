@@ -1,15 +1,9 @@
 package com.cinema.bookings.repository;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.cinema.bookings.entity.Booking;
 
-public interface BookingRepository extends JparRepository<Booking, Long> {
+public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    Booking save(Booking booking);
-
-    List<Booking> findAll();
-
-    Booking findById(Long id);
-    
 }

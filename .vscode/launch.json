@@ -9,6 +9,26 @@
             "projectName": "ms-cinema-catalog",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MsAuthUsersApplication<ms-auth-users>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.cinema.auth.MsAuthUsersApplication",
+            "projectName": "ms-auth-users",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-MsBookingsApplication<ms-bookings>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.cinema.bookings.MsBookingsApplication",
+            "projectName": "ms-bookings",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
