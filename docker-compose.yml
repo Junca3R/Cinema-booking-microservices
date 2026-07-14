@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  # ----------------------------------------------------
+  # BASES DE DATOS (MYSQL & POSTGRES)
+  # ----------------------------------------------------
+  db-cinema-mysql:
+    image: mysql:8.0
+    container_name: db-cinema-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_cinema_catalog
+    ports:
+      - "3308:3306" # Puerto 3308 para no chocar con el de Pedidos (3307) ni tu MySQL local
+    volumes:
+      - mysql_cinema_data:/var/lib/mysql
+
+  db-cinema-postgres:
+    image: postgres:15-alpine
+    container_name: db-cinema-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: db_cinema_users # Base de datos por defecto (para ms-auth-users)
+    ports:
+      - "5434:5432" # Puerto 5434 para evitar colisiones
+    volumes:
+      - postgres_cinema_data:/var/lib/postgresql/data
+
+  # ----------------------------------------------------
+  # MICROSERVICIOS
+  # ----------------------------------------------------
+  ms-cinema-catalog:
+    build:
+      context: ./ms-cinema-catalog
+      dockerfile: Dockerfile
+    container_name: ms-cinema-catalog
+    ports:
+      - "8086:8086"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-cinema-mysql:3306/db_cinema_catalog?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+    depends_on:
+      - db-cinema-mysql
+
+  ms-auth-users:
+    build:
+      context: ./ms-auth-users
+      dockerfile: Dockerfile
+    container_name: ms-auth-users
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-cinema-postgres:5432/db_cinema_users
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+    depends_on:
+      - db-cinema-postgres
+
+  ms-bookings:
+    build:
+      context: ./ms-bookings
+      dockerfile: Dockerfile
+    container_name: ms-bookings
+    ports:
+      - "8087:8087"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db-cinema-postgres:5432/db_cinema_bookings?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+      # Sobrescribimos la URL de Feign para que apunte dentro de la red interna de Docker
+      - FEIGN_CLIENT_URL_CATALOG=http://ms-cinema-catalog:8086 
+    depends_on:
+      - db-cinema-postgres
+      - ms-cinema-catalog
+
+volumes:
+  mysql_cinema_data:
+  postgres_cinema_data:
