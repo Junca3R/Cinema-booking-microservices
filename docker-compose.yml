@@ -31,6 +31,7 @@ services:
   # MICROSERVICIOS
   # ----------------------------------------------------
   ms-cinema-catalog:
+  #build para construir la imagen del microservicio desde el Dockerfile en el directorio ms-cinema-catalog
     build:
       context: ./ms-cinema-catalog
       dockerfile: Dockerfile
@@ -70,7 +71,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=admin
       # Sobrescribimos la URL de Feign para que apunte dentro de la red interna de Docker
-      - FEIGN_CLIENT_URL_CATALOG=http://ms-cinema-catalog:8086 
+      - FEIGN_CLIENT_URL_CATALOG=http://ms-cinema-catalog:8086
     depends_on:
       - db-cinema-postgres
       - ms-cinema-catalog
