@@ -11,7 +11,7 @@ Sistema distribuido y contenedorizado para la gestión de cartelera de cine y re
 
 ---
 
-## 📖 Tabla de contenidos
+## 📖 Tabla de contenido
 
 - [Descripción general](#-descripción-general)
 - [Arquitectura](#-arquitectura)
