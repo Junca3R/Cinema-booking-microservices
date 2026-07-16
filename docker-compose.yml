@@ -39,8 +39,8 @@ services:
     ports:
       - "8086:8086"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://db-cinema-mysql:3306/db_cinema_catalogs
-      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-cinema-mysql:3306/db_cinema_catalog
+      - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=admin
     depends_on:
       - db-cinema-mysql
